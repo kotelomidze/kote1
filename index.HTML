@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>თვითმარქვიას სინდრომი - ინტერაქტიული გზამკვლევი</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals (Stone with a calming Blue-Gray accent) -->
+    <!-- Application Structure Plan: The application is structured into three main thematic sections to guide the user logically through the topic. It starts with a clear definition ('რა არის?'), moves to an interactive exploration of the signs ('ნიშნები'), and concludes with scannable key facts ('მნიშვნელოვანი ფაქტები'). This structure was chosen over a simple linear document to enhance user engagement and comprehension. The core of the app is the interactive "Signs" section, which turns a passive reading list into an active discovery process, allowing users to focus on one concept at a time. This approach makes the information more digestible and memorable. -->
+    <!-- Visualization & Content Choices: Report Info -> Goal -> Presentation -> Interaction -> Justification. 1. Definition: Inform -> Hero text -> None -> Clear entry point. 2. Syndrome Signs: Organize/Explore -> Interactive HTML cards with icons -> Click to reveal details -> More engaging than a list, encourages user participation. 3. Key Facts: Summarize/Inform -> 3-column layout with icons -> None -> Easy-to-scan summary of key takeaways. Since the source material is qualitative, no data charts are needed. All visual elements are created with HTML/CSS and Unicode, avoiding SVG/Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans Georgian', sans-serif;
+            background-color: #f8f7f5;
+            color: #44403c;
+        }
+        .active-card {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #60a5fa;
+        }
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="smooth-scroll">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-10 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-xl font-bold text-stone-700">🧠 თვითმარქვიას სინდრომი</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#definition" class="text-stone-600 hover:text-blue-500 transition-colors">რა არის?</a>
+                <a href="#signs" class="text-stone-600 hover:text-blue-500 transition-colors">ნიშნები</a>
+                <a href="#facts" class="text-stone-600 hover:text-blue-500 transition-colors">ფაქტები</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section id="definition" class="text-center py-16">
+            <h1 class="text-4xl md:text-6xl font-bold text-stone-800 mb-4">თვითმარქვიას სინდრომი</h1>
+            <p class="text-lg md:text-xl text-stone-600 max-w-3xl mx-auto">
+                ფსიქოლოგიური ფენომენი, როდესაც ადამიანები საკუთარ წარმატებას იღბალს ან გარემოებებს მიაწერენ და არა საკუთარ უნარებს, მუდმივად შიშში ცხოვრობენ, რომ ერთ დღეს "ამხელენ".
+            </p>
+        </section>
+
+        <section id="signs" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-800">სინდრომის დამახასიათებელი ნიშნები</h2>
+                <p class="text-stone-600 mt-2">დააჭირეთ ბარათს დეტალური ინფორმაციის სანახავად.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+                <div class="symptom-card cursor-pointer p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border-2 border-transparent" data-sign="external">
+                    <div class="text-4xl mb-3">🍀</div>
+                    <h3 class="font-bold text-stone-700">გარეგანი ფაქტორები</h3>
+                </div>
+                <div class="symptom-card cursor-pointer p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border-2 border-transparent" data-sign="exposure">
+                    <div class="text-4xl mb-3">🎭</div>
+                    <h3 class="font-bold text-stone-700">"გამოაშკარავების" შიში</h3>
+                </div>
+                <div class="symptom-card cursor-pointer p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border-2 border-transparent" data-sign="failure">
+                    <div class="text-4xl mb-3"> blaming-self--v2 👎</div>
+                    <h3 class="font-bold text-stone-700">თვითდადანაშაულება</h3>
+                </div>
+                <div class="symptom-card cursor-pointer p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border-2 border-transparent" data-sign="perfectionism">
+                    <div class="text-4xl mb-3">🎯</div>
+                    <h3 class="font-bold text-stone-700">სრულყოფილებისკენ სწრაფვა</h3>
+                </div>
+                <div class="symptom-card cursor-pointer p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border-2 border-transparent" data-sign="hiding">
+                    <div class="text-4xl mb-3">🤫</div>
+                    <h3 class="font-bold text-stone-700">წარმატების დამალვა</h3>
+                </div>
+            </div>
+
+            <div id="symptom-display" class="bg-white p-8 rounded-xl shadow-inner min-h-[150px] transition-all duration-500">
+                <p class="text-stone-500 text-center text-lg">აირჩიეთ ზემოთ მოცემული ნიშანი, რომ წაიკითხოთ მისი აღწერა.</p>
+            </div>
+        </section>
+
+        <section id="facts" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-800">მნიშვნელოვანი ფაქტები</h2>
+                <p class="text-stone-600 mt-2">რა უნდა ვიცოდეთ თვითმარქვიას სინდრომის შესახებ.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-blue-50 p-8 rounded-xl text-center">
+                    <div class="text-4xl mb-4">🩺</div>
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">არაოფიციალური სტატუსი</h3>
+                    <p class="text-blue-700">თვითმარქვიას სინდრომი არ არის ოფიციალური ფსიქიკური აშლილობა, თუმცა ფართოდ გავრცელებული და აღიარებული ფსიქოლოგიური ფენომენია.</p>
+                </div>
+                <div class="bg-green-50 p-8 rounded-xl text-center">
+                    <div class="text-4xl mb-4">🤔</div>
+                    <h3 class="text-xl font-bold text-green-800 mb-2">დამახინჯებული აღქმა</h3>
+                    <p class="text-green-700">პრობლემის სათავე არის საკუთარი თავის დამახინჯებული აღქმა. ეს არ არის კომპეტენციის ნაკლებობა, არამედ საკუთარი კომპეტენციის მიღებისა და შეფასების უუნარობა.</p>
+                </div>
+                <div class="bg-yellow-50 p-8 rounded-xl text-center">
+                    <div class="text-4xl mb-4">💡</div>
+                    <h3 class="text-xl font-bold text-yellow-800 mb-2">ნიჭიერი ადამიანები</h3>
+                    <p class="text-yellow-700">ხშირად, ამ სინდრომით იტანჯებიან ძალიან ნიჭიერი, წარმატებული და კომპეტენტური ადამიანები, რომლებსაც უჭირთ საკუთარი მიღწევების შინაგანად აღიარება.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-200 text-center py-6">
+        <p class="text-stone-600">ინტერაქტიული გზამკვლევი თვითმარქვიას სინდრომის შესახებ</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const symptomCards = document.querySelectorAll('.symptom-card');
+            const displayArea = document.getElementById('symptom-display');
+
+            const signData = {
+                external: {
+                    title: "წარმატების მინიჭება გარეგან ფაქტორებზე",
+                    text: "ისინი მიდრეკილნი არიან თავიანთი წარმატებები მიაწერონ იღბალს, დამხმარეებს ან გარემოებებს და არა საკუთარ უნარებსა და ძალისხმევას. ფიქრობენ, რომ უბრალოდ 'გაუმართლათ' ან 'სწორ დროს სწორ ადგილას აღმოჩნდნენ'."
+                },
+                exposure: {
+                    title: "მუდმივი შიში 'გამოაშკარავებისა'",
+                    text: "მათ მუდმივად აქვთ შიში, რომ სხვები აღმოაჩენენ მათ 'ნამდვილ სახეს' და მიხვდებიან, რომ ისინი არაკომპეტენტურები არიან. ეს შიში მათ მუდმივ სტრესში ამყოფებს."
+                },
+                failure: {
+                    title: "საკუთარი თავის დადანაშაულება წარუმატებლობის გამო",
+                    text: "წარუმატებლობის შემთხვევაში ისინი საკუთარ თავს ადანაშაულებენ და თვლიან, რომ ეს მათი არასაკმარისი შესაძლებლობების ბრალია, რაც კიდევ უფრო ამყარებს მათ რწმენას, რომ ისინი 'თაღლითები' არიან."
+                },
+                perfectionism: {
+                    title: "სრულყოფილებისკენ სწრაფვა",
+                    text: "ისინი ხშირად ისახავენ ძალიან მაღალ, თითქმის მიუღწეველ სტანდარტებს. ნებისმიერი, თუნდაც უმნიშვნელო შეცდომა, მათთვის საკუთარი არაკომპეტენტურობის დასტურია, რაც დიდ სტრესს იწვევს."
+                },
+                hiding: {
+                    title: "წარმატების დამალვა ან უგულებელყოფა",
+                    text: "მათ შეიძლება დამალონ თავიანთი წარმატებები ან შეამცირონ მათი მნიშვნელობა, რათა თავიდან აიცილონ ყურადღება და შესაძლო 'გამოაშკარავება'. კომპლიმენტებზე ხშირად პასუხობენ თავისმართლებით."
+                }
+            };
+
+            symptomCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const sign = card.dataset.sign;
+                    const data = signData[sign];
+
+                    symptomCards.forEach(c => c.classList.remove('active-card'));
+                    card.classList.add('active-card');
+                    
+                    displayArea.innerHTML = `
+                        <h3 class="text-2xl font-bold text-stone-800 mb-3">${data.title}</h3>
+                        <p class="text-stone-600 text-lg leading-relaxed">${data.text}</p>
+                    `;
+                });
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
