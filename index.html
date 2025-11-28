@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ვეფხისტყაოსნის ვიქტორინა</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      body {
+        font-family: 'Noto Sans Georgian', sans-serif;
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // --- ICONS (Inline SVGs to avoid dependencies) ---
+        const Icons = {
+            BookOpen: (props) => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                </svg>
+            ),
+            ArrowRight: (props) => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+                    <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                </svg>
+            ),
+            User: (props) => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+            ),
+            CheckCircle2: (props) => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+                    <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
+                </svg>
+            ),
+            XCircle: (props) => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+                    <circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>
+                </svg>
+            ),
+            Trophy: (props) => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+                    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                </svg>
+            ),
+            RefreshCcw: (props) => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+                    <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>
+                </svg>
+            ),
+            Check: (props) => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+                    <path d="M20 6 9 17l-5-5"/>
+                </svg>
+            ),
+            X: (props) => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+                    <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                </svg>
+            ),
+            Copy: (props) => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                </svg>
+            ),
+            CheckCheck: (props) => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+                    <path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/>
+                </svg>
+            )
+        };
+
+        // --- DATA ---
+        const questionsData = [
+            {
+                id: 1,
+                question: "ვინ იყო როსტევანი?",
+                options: ["ინდოეთის მეფე", "ხატაეთის მეფე", "არაბეთის მეფე", "ქაჯეთის მეფე"],
+                correctAnswer: "არაბეთის მეფე"
+            },
+            {
+                id: 2,
+                question: "რა ერქვა როსტევანის ერთადერთ ქალიშვილს?",
+                options: ["ნესტან-დარეჯანი", "თინათინი", "ასმათი", "დავარი"],
+                correctAnswer: "თინათინი"
+            },
+            {
+                id: 3,
+                question: "რა თანამდებობა მიანიჭა როსტევანმა ავთანდილს?",
+                options: ["ვეზირობა", "სპასალარობა", "მონადირეთუხუცესობა", "ხაზინადარობა"],
+                correctAnswer: "სპასალარობა"
+            },
+            {
+                id: 4,
+                question: "სწორია თუ მცდარი: ავთანდილი და თინათინი თავიანთ სიყვარულს ყველას აშკარად უმხელდნენ.",
+                options: ["სწორია", "მცდარია"],
+                correctAnswer: "მცდარია"
+            },
+            {
+                id: 5,
+                question: "რატომ გადაწყვიტა როსტევანმა თინათინის გამეფება?",
+                options: ["ავადმყოფობის გამო", "რადგან უკვე მოხუცებული იყო", "ომში მიდიოდა", "ხალხის მოთხოვნით"],
+                correctAnswer: "რადგან უკვე მოხუცებული იყო"
+            },
+            {
+                id: 6,
+                question: "რატომ იყო როსტევანი მოწყენილი თინათინის გამეფების შემდეგ?",
+                options: ["ქალიშვილმა ხაზინა დააცარიელა", "ვაჟიშვილი არ ჰყავდა, რომელიც მის სამამაცო ზნეს შეითვისებდა", "ავთანდილი განუდგა", "მეზობელი ქვეყანა დაესხა თავს"],
+                correctAnswer: "ვაჟიშვილი არ ჰყავდა, რომელიც მის სამამაცო ზნეს შეითვისებდა"
+            },
+            {
+                id: 7,
+                question: "რა შესთავაზა ავთანდილმა მეფეს დარდის გასაქარვებლად?",
+                options: ["ნადირობა და მშვილდოსნობაში შეჯიბრი", "უცხო ქვეყნების დალაშქვრა", "დიდი ნადიმის გამართვა", "ჭადრაკის თამაში"],
+                correctAnswer: "ნადირობა და მშვილდოსნობაში შეჯიბრი"
+            },
+            {
+                id: 8,
+                question: "სწორია თუ მცდარი: ნადირობისას ავთანდილმა მეფეზე ოცით მეტი ნადირი მოკლა.",
+                options: ["სწორია", "მცდარია"],
+                correctAnswer: "სწორია"
+            },
+            {
+                id: 9,
+                question: "ვინ დაინახეს მეფემ და ავთანდილმა წყლის პირას ნადირობის შემდეგ?",
+                options: ["უცხო მეფე", "მტირალი უცხო მოყმე", "დაჭრილი ირემი", "დაკარგული მონა"],
+                correctAnswer: "მტირალი უცხო მოყმე"
+            },
+            {
+                id: 10,
+                question: "რა ემოსა უცხო მოყმეს?",
+                options: ["რკინის აბჯარი", "ვეფხის ტყავი", "ლომის ტყავი", "აბრეშუმის სამოსი"],
+                correctAnswer: "ვეფხის ტყავი"
+            },
+            {
+                id: 11,
+                question: "როგორ მოიქცა უცხო მოყმე, როცა მასთან მეფის 12 მონა მივიდა?",
+                options: ["დანებდა", "გაექცა მათ", "მათრახით მუსრი გაავლო მათ", "საჩუქრები გადასცა"],
+                correctAnswer: "მათრახით მუსრი გაავლო მათ"
+            },
+            {
+                id: 12,
+                question: "სწორია თუ მცდარი: როსტევანმა და ავთანდილმა შეძლეს უცხო მოყმის დაწევა და შეპყრობა.",
+                options: ["სწორია", "მცდარია"],
+                correctAnswer: "მცდარია"
+            },
+            {
+                id: 13,
+                question: "ვისი რჩევით გაგზავნა მეფემ ხალხი უცხო მოყმის მოსაძებნად?",
+                options: ["ვეზირ სოგრატის", "თინათინის", "ავთანდილის", "შერმადინის"],
+                correctAnswer: "თინათინის"
+            },
+            {
+                id: 14,
+                question: "რამდენ ხანს ეძებდნენ როსტევანის გაგზავნილი მონები უცხო მოყმეს?",
+                options: ["ერთი თვე", "სამი თვე", "ერთი წელიწადი", "სამი წელიწადი"],
+                correctAnswer: "ერთი წელიწადი"
+            },
+            {
+                id: 15,
+                question: "რა პირობა დაუდო თინათინმა ავთანდილს ცოლად გაყოლის სანაცვლოდ?",
+                options: ["ხატაეთის დაპყრობა", "უცხო მოყმის მოძებნა", "ინდოეთის მეფესთან ელჩობა", "დიდი საგანძურის მოტანა"],
+                correctAnswer: "უცხო მოყმის მოძებნა"
+            },
+            {
+                id: 16,
+                question: "რამდენი დრო მისცა თინათინმა ავთანდილს მოყმის საპოვნელად?",
+                options: ["ერთი წელი", "ორი წელი", "სამი წელი", "ხუთი წელი"],
+                correctAnswer: "სამი წელი"
+            },
+            {
+                id: 17,
+                question: "ვინ არის შერმადინი?",
+                options: ["ავთანდილის მონა და ერთგული მსახური", "როსტევანის ვეზირი", "ტარიელის ძმა", "ხატაელი მონადირე"],
+                correctAnswer: "ავთანდილის მონა და ერთგული მსახური"
+            },
+            {
+                id: 18,
+                question: "სწორია თუ მცდარი: ავთანდილმა შერმადინს დაავალა, რომ მეფისთვის მისი სახელით წერილები მიეწერა.",
+                options: ["სწორია", "მცდარია"],
+                correctAnswer: "სწორია"
+            },
+            {
+                id: 19,
+                question: "ვისგან გაიგო ავთანდილმა პირველად უცხო მოყმის კვალი?",
+                options: ["მწყემსებისგან", "ხატაელი მონადირეებისგან", "ინდოელი ვაჭრებისგან", "გზად შეხვედრილი ბერისგან"],
+                correctAnswer: "ხატაელი მონადირეებისგან"
+            },
+            {
+                id: 20,
+                question: "სად იპოვა ავთანდილმა უცხო მოყმე?",
+                options: ["სასახლეში", "ტყეში, გამოქვაბულში", "ზღვის პირას", "მთის მწვერვალზე"],
+                correctAnswer: "ტყეში, გამოქვაბულში"
+            },
+            {
+                id: 21,
+                question: "ვინ დახვდა ავთანდილს გამოქვაბულში?",
+                options: ["თავად მოყმე", "ქალი სახელად ასმათი", "ნესტან-დარეჯანი", "მოყმის მსახური კაცი"],
+                correctAnswer: "ქალი სახელად ასმათი"
+            },
+            {
+                id: 22,
+                question: "სწორია თუ მცდარი: ასმათმა ავთანდილს თავიდანვე ნებაყოფლობით უამბო ყველაფერი.",
+                options: ["სწორია", "მცდარია"],
+                correctAnswer: "მცდარია"
+            },
+            {
+                id: 23,
+                question: "რა ერქვა უცხო მოყმეს?",
+                options: ["ფრიდონი", "ტარიელი", "რამაზი", "სარიდანი"],
+                correctAnswer: "ტარიელი"
+            },
+            {
+                id: 24,
+                question: "რომელი ქვეყნიდან იყო ტარიელი?",
+                options: ["არაბეთიდან", "ინდოეთიდან", "ხატაეთიდან", "საბერძნეთიდან"],
+                correctAnswer: "ინდოეთიდან"
+            },
+            {
+                id: 25,
+                question: "ვინ იყო ტარიელის გამზრდელი?",
+                options: ["მისი ბიძა", "მეფე ფარსადანი", "მეფე როსტევანი", "ასმათის მამა"],
+                correctAnswer: "მეფე ფარსადანი"
+            },
+            {
+                id: 26,
+                question: "ვინ შეუყვარდა ტარიელს?",
+                options: ["თინათინი", "ასმათი", "ნესტან-დარეჯანი", "დავარი"],
+                correctAnswer: "ნესტან-დარეჯანი"
+            },
+            {
+                id: 27,
+                question: "სწორია თუ მცდარი: ნესტან-დარეჯანმა ტარიელს მოსთხოვა ხატაელებთან ბრძოლაში თავის გამოჩენა.",
+                options: ["სწორია", "მცდარია"],
+                correctAnswer: "სწორია"
+            },
+            {
+                id: 28,
+                question: "ვინ იყო ხატაეთის მეფე, რომელმაც ტარიელის მოტყუება სცადა?",
+                options: ["ფარსადანი", "რამაზი", "სარიდანი", "სოგრატი"],
+                correctAnswer: "რამაზი"
+            },
+            {
+                id: 29,
+                question: "რა მოუტანა ტარიელმა ნესტანს საჩუქრად ხატაეთიდან?",
+                options: ["ოქროს გვირგვინი", "საუცხოო ყაბაჩა და რიდე", "ვეფხის ტყავი", "ძვირფასი ბეჭედი"],
+                correctAnswer: "საუცხოო ყაბაჩა და რიდე"
+            },
+            {
+                id: 30,
+                question: "სწორია თუ მცდარი: ავთანდილი და ტარიელი ერთმანეთს დაუმეგობრდნენ.",
+                options: ["სწორია", "მცდარია"],
+                correctAnswer: "სწორია"
+            }
+        ];
+
+        // --- COMPONENTS ---
+
+        const WelcomeCard = ({ onStart }) => {
+            const [name, setName] = React.useState('');
+            const [error, setError] = React.useState(false);
+
+            const handleSubmit = () => {
+                if (name.trim().length < 2) {
+                    setError(true);
+                    return;
+                }
+                onStart(name);
+            };
+
+            return (
+                <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div className="bg-indigo-700 p-8 text-center">
+                        <Icons.BookOpen className="w-16 h-16 text-white mx-auto mb-4" />
+                        <h1 className="text-3xl font-bold text-white mb-2">შემაჯამებელი ტესტი</h1>
+                        <p className="text-indigo-100 text-lg">ვეფხისტყაოსნის შინაარსის მიხედვით</p>
+                    </div>
+                    <div className="p-8 space-y-6">
+                        <div className="space-y-4">
+                            <label className="block text-slate-700 font-medium mb-1">
+                                მოსწავლის მონაცემები
+                            </label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <Icons.User className="h-5 w-5 text-gray-400" />
+                                </div>
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => {
+                                        setName(e.target.value);
+                                        setError(false);
+                                    }}
+                                    placeholder="ჩაწერეთ სახელი და გვარი"
+                                    className={`block w-full pl-10 pr-3 py-3 border ${
+                                        error ? 'border-red-500 ring-1 ring-red-500' : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                                    } rounded-xl shadow-sm placeholder-gray-400 focus:outline-none transition-all`}
+                                />
+                            </div>
+                            {error && (
+                                <p className="text-red-500 text-sm">გთხოვთ, მიუთითოთ სახელი და გვარი ტესტის დასაწყებად.</p>
+                            )}
+                        </div>
+
+                        <div className="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                            <h3 className="font-semibold text-slate-800 mb-2">ინსტრუქცია:</h3>
+                            <ul className="list-disc list-inside space-y-2 text-slate-600 text-sm">
+                                <li>ტესტი მოიცავს 30 კითხვას მოცემული ტექსტიდან.</li>
+                                <li>კითხვების თანმიმდევრობა შერეულია.</li>
+                                <li>პასუხის მონიშვნის შემდეგ გადახვალთ მომდევნო კითხვაზე.</li>
+                                <li>ბოლოს შეგეძლებათ შედეგების დეტალური რეპორტის ნახვა და კოპირება.</li>
+                            </ul>
+                        </div>
+
+                        <button
+                            onClick={handleSubmit}
+                            className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-[1.02] shadow-md"
+                        >
+                            <span>ტესტის დაწყება</span>
+                            <Icons.ArrowRight className="w-5 h-5" />
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const QuizCard = ({
+            question,
+            currentQuestionIndex,
+            totalQuestions,
+            selectedAnswer,
+            onSelectAnswer,
+            onNext
+        }) => {
+            const isAnswered = selectedAnswer !== null;
+
+            const getOptionStyles = (option) => {
+                const baseStyle = "w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-center justify-between group";
+                
+                if (!isAnswered) {
+                    return `${baseStyle} border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 text-slate-700`;
+                }
+
+                if (option === question.correctAnswer) {
+                    return `${baseStyle} border-green-500 bg-green-50 text-green-800 font-medium`;
+                }
+
+                if (selectedAnswer === option && option !== question.correctAnswer) {
+                    return `${baseStyle} border-red-500 bg-red-50 text-red-800`;
+                }
+
+                return `${baseStyle} border-slate-100 text-slate-400 opacity-60`;
+            };
+
+            const progressPercentage = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+
+            return (
+                <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden min-h-[500px] flex flex-col">
+                    {/* Header / Progress */}
+                    <div className="bg-slate-50 px-8 py-6 border-b border-slate-100">
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-sm font-semibold text-indigo-600 tracking-wider uppercase">
+                                კითხვა {currentQuestionIndex + 1} / {totalQuestions}
+                            </span>
+                            <span className="text-slate-400 text-sm font-medium">
+                                {Math.round(progressPercentage)}%
+                            </span>
+                        </div>
+                        <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
+                            <div 
+                                className="h-full bg-indigo-600 transition-all duration-500 ease-out"
+                                style={{ width: `${progressPercentage}%` }}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Question Body */}
+                    <div className="p-8 flex-grow flex flex-col justify-center">
+                        <h2 className="text-2xl font-bold text-slate-800 mb-8 leading-snug">
+                            {question.question}
+                        </h2>
+
+                        <div className="space-y-3">
+                            {question.options.map((option, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => !isAnswered && onSelectAnswer(option)}
+                                    disabled={isAnswered}
+                                    className={getOptionStyles(option)}
+                                >
+                                    <span className="text-lg">{option}</span>
+                                    {isAnswered && option === question.correctAnswer && (
+                                        <Icons.CheckCircle2 className="w-6 h-6 text-green-600" />
+                                    )}
+                                    {isAnswered && selectedAnswer === option && option !== question.correctAnswer && (
+                                        <Icons.XCircle className="w-6 h-6 text-red-600" />
+                                    )}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Footer / Actions */}
+                    <div className="p-8 border-t border-slate-100 bg-slate-50 flex justify-end">
+                        <button
+                            onClick={onNext}
+                            disabled={!isAnswered}
+                            className={`flex items-center gap-2 px-8 py-3 rounded-xl font-bold transition-all duration-200 ${
+                                isAnswered
+                                    ? "bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg hover:shadow-indigo-200 transform hover:-translate-y-0.5"
+                                    : "bg-slate-200 text-slate-400 cursor-not-allowed"
+                            }`}
+                        >
+                            <span>შემდეგი</span>
+                            <Icons.ArrowRight className="w-5 h-5" />
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const ResultCard = ({ 
+            score, 
+            totalQuestions, 
+            studentName,
+            questions,
+            userAnswers,
+            onRestart 
+        }) => {
+            const [copied, setCopied] = React.useState(false);
+            const percentage = Math.round((score / totalQuestions) * 100);
+            
+            let message = "";
+            let colorClass = "";
+
+            if (percentage >= 90) {
+                message = "შესანიშნავი შედეგია!";
+                colorClass = "text-green-600";
+            } else if (percentage >= 70) {
+                message = "კარგი შედეგია.";
+                colorClass = "text-indigo-600";
+            } else if (percentage >= 50) {
+                message = "დამაკმაყოფილებელი შედეგია.";
+                colorClass = "text-orange-600";
+            } else {
+                message = "სამწუხაროდ, ზღვარი ვერ გადალახეთ.";
+                colorClass = "text-red-600";
+            }
+
+            const handleCopyReport = async () => {
+                let report = `მოსწავლე: ${studentName}\n`;
+                report += `შედეგი: ${score} / ${totalQuestions} (${percentage}%)\n`;
+                report += `შეფასება: ${message}\n\n`;
+                report += `--- დეტალური ანგარიში ---\n\n`;
+
+                questions.forEach((q, index) => {
+                    const userAnswer = userAnswers[q.id];
+                    const isCorrect = userAnswer === q.correctAnswer;
+                    
+                    report += `${index + 1}. ${q.question}\n`;
+                    report += `   პასუხი: ${isCorrect ? '✅ სწორია' : '❌ მცდარია'}\n`;
+                    if (!isCorrect) {
+                        report += `   მონიშნული: ${userAnswer}\n`;
+                        report += `   სწორი პასუხი: ${q.correctAnswer}\n`;
+                    }
+                    report += '\n';
+                });
+
+                try {
+                    await navigator.clipboard.writeText(report);
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    alert('კოპირება ვერ მოხერხდა. გთხოვთ მონიშნოთ და დააკოპიროთ ხელით.');
+                }
+            };
+
+            return (
+                <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden p-8">
+                    <div className="text-center mb-6">
+                        <div className="mb-6 flex justify-center">
+                            <div className={`p-4 rounded-full bg-slate-100 ${colorClass}`}>
+                                <Icons.Trophy className="w-16 h-16" />
+                            </div>
+                        </div>
+
+                        <h2 className="text-2xl font-bold text-slate-800 mb-1">{studentName}</h2>
+                        <p className={`text-lg font-medium mb-6 ${colorClass}`}>{message}</p>
+
+                        <div className="grid grid-cols-2 gap-4 mb-8">
+                            <div className="bg-green-50 p-4 rounded-xl border border-green-100">
+                                <div className="flex items-center justify-center gap-2 text-green-700 mb-1">
+                                    <Icons.Check className="w-5 h-5" />
+                                    <span className="font-semibold">სწორი</span>
+                                </div>
+                                <span className="text-2xl font-bold text-green-800">{score}</span>
+                            </div>
+                            <div className="bg-red-50 p-4 rounded-xl border border-red-100">
+                                <div className="flex items-center justify-center gap-2 text-red-700 mb-1">
+                                    <Icons.X className="w-5 h-5" />
+                                    <span className="font-semibold">მცდარი</span>
+                                </div>
+                                <span className="text-2xl font-bold text-red-800">{totalQuestions - score}</span>
+                            </div>
+                        </div>
+
+                        <div className="text-slate-500 mb-8">
+                            საბოლოო ქულა: <span className="font-bold text-slate-800 text-lg">{percentage}%</span>
+                        </div>
+                    </div>
+
+                    <div className="space-y-3">
+                        <button
+                            onClick={handleCopyReport}
+                            className={`w-full flex items-center justify-center gap-2 font-bold py-3 px-6 rounded-xl transition-all shadow-sm border-2 ${
+                                copied 
+                                    ? "bg-green-100 border-green-200 text-green-700" 
+                                    : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300"
+                            }`}
+                        >
+                            {copied ? <Icons.CheckCheck className="w-5 h-5" /> : <Icons.Copy className="w-5 h-5" />}
+                            <span>{copied ? "კოპირებულია!" : "შედეგების კოპირება"}</span>
+                        </button>
+
+                        <button
+                            onClick={onRestart}
+                            className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-md"
+                        >
+                            <Icons.RefreshCcw className="w-5 h-5" />
+                            <span>თავიდან დაწყება</span>
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [gameState, setGameState] = React.useState('welcome'); // welcome, playing, finished
+            const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
+            const [score, setScore] = React.useState(0);
+            const [selectedAnswer, setSelectedAnswer] = React.useState(null);
+            const [studentName, setStudentName] = React.useState('');
+            const [shuffledQuestions, setShuffledQuestions] = React.useState([]);
+            const [userAnswers, setUserAnswers] = React.useState({});
+
+            const shuffleArray = (array) => {
+                const newArray = [...array];
+                for (let i = newArray.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+                }
+                return newArray;
+            };
+
+            const handleStart = (name) => {
+                setStudentName(name);
+                setShuffledQuestions(shuffleArray(questionsData));
+                setGameState('playing');
+                setCurrentQuestionIndex(0);
+                setScore(0);
+                setSelectedAnswer(null);
+                setUserAnswers({});
+            };
+
+            const handleAnswerSelect = (answer) => {
+                setSelectedAnswer(answer);
+                
+                const currentQuestion = shuffledQuestions[currentQuestionIndex];
+                
+                setUserAnswers(prev => ({
+                    ...prev,
+                    [currentQuestion.id]: answer
+                }));
+
+                if (answer === currentQuestion.correctAnswer) {
+                    setScore((prev) => prev + 1);
+                }
+            };
+
+            const handleNextQuestion = () => {
+                const nextIndex = currentQuestionIndex + 1;
+                if (nextIndex < shuffledQuestions.length) {
+                    setCurrentQuestionIndex(nextIndex);
+                    setSelectedAnswer(null);
+                } else {
+                    setGameState('finished');
+                }
+            };
+
+            const handleRestart = () => {
+                setGameState('welcome');
+                setStudentName('');
+            };
+
+            return (
+                <div className="min-h-screen bg-slate-100 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center font-sans">
+                    <div className="w-full max-w-4xl">
+                        {gameState === 'welcome' && (
+                            <WelcomeCard onStart={handleStart} />
+                        )}
+
+                        {gameState === 'playing' && (
+                            <QuizCard
+                                question={shuffledQuestions[currentQuestionIndex]}
+                                currentQuestionIndex={currentQuestionIndex}
+                                totalQuestions={shuffledQuestions.length}
+                                selectedAnswer={selectedAnswer}
+                                onSelectAnswer={handleAnswerSelect}
+                                onNext={handleNextQuestion}
+                            />
+                        )}
+
+                        {gameState === 'finished' && (
+                            <ResultCard
+                                score={score}
+                                totalQuestions={shuffledQuestions.length}
+                                studentName={studentName}
+                                questions={shuffledQuestions}
+                                userAnswers={userAnswers}
+                                onRestart={handleRestart}
+                            />
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
